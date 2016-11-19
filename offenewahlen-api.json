@@ -1,0 +1,160 @@
+swagger: "2.0"
+info:
+  title: Offene Wahlen API
+  version: 0.0.1
+paths:
+  /wahlen:
+    get:
+      responses:
+        "200":
+          description: Liste an Wahlen
+          schema:
+            $ref: "#/definitions/Wahl"
+  "/wahlen/{wahlId}":
+    get:
+      parameters:
+        - name: wahlId
+          required: true
+          type: string
+          in: path
+      responses:
+        "200":
+          description: Wahl Details
+          schema:
+            $ref: "#/definitions/WahlDetails"
+  "/wahlen/{wahlId}/ergebnisse":
+    get:
+      parameters:
+        - name: wahlId
+          required: true
+          type: string
+          in: path
+      responses:
+        "200":
+          description: Wahlergebnis Gesamt
+          schema:
+            $ref: "#/definitions/Wahlergebnis"
+  "/wahlen/{wahlId}/ergebnisse/{subGeb}/{verwId}":
+    get:
+      parameters:
+        - name: wahlId
+          required: true
+          type: string
+          in: path
+        - name: subGeb
+          required: true
+          type: string
+          in: path
+        - name: verwId
+          required: true
+          type: string
+          in: path
+        - name: hierarchie
+          type: string
+          in: query
+        - name: wahlparteien
+          type: string
+          format: string
+          collectionFormat: csv
+          in: query
+        - name: filter
+          type: string
+          in: query
+        - name: prozent
+          type: boolean
+          in: query
+      responses:
+        "200":
+          description: Wahlergebnis Sub Region
+          schema:
+            $ref: "#/definitions/Wahlergebnis"
+definitions:
+  Wahl:
+    title: Wahl
+    description: Metadaten zu einer Wahl
+    required:
+      - name
+      - wahltag
+      - art
+      - status
+      - verwaltungseinheit
+      - hierachie
+    type: object
+    properties:
+      name:
+        type: string
+      wahltag:
+        type: string
+      art:
+        type: string
+      status:
+        type: string
+      verwaltungseinheit:
+        type: string
+      hierachie:
+        type: string
+  WahlDetails:
+    title: Wahl
+    description: Metadaten zu einer Wahl
+    required:
+      - name
+      - wahltag
+      - art
+      - status
+      - verwaltungseinheit
+      - hierachie
+      - rechtsgrundlagen
+      - wahlalter
+      - stichtag
+    type: object
+    properties:
+      name:
+        type: string
+      wahltag:
+        type: string
+      art:
+        type: string
+      status:
+        type: string
+      verwaltungseinheit:
+        type: string
+      hierachie:
+        type: string
+      stichtag:
+        type: string
+      wahlberechtigte:
+        type: integer
+      rechtsgrundlagen:
+        type: array
+        items:
+          type: string
+      wahlalter:
+        type: integer
+  Wahlergebnis:
+    title: Wahlergebnis
+    description: Wahlergebnis mit seinen Properties
+    required:
+      - wahlberechtigte
+      - abgegebene
+      - gueltige
+      - wahlkarten
+      - wahlkarten_gueltig
+      - briefwahl_gueltig
+      - briefwahl
+    type: object
+    properties:
+      wahlberechtigte:
+        type: integer
+      abgegebene:
+        type: integer
+      gueltige:
+        type: integer
+      wahlkarten:
+        type: integer
+      wahlkarten_gueltig:
+        type: integer
+      briefwahl_gueltig:
+        type: integer
+      briefwahl:
+        type: integer
+
